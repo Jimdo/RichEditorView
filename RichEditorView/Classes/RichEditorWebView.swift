@@ -10,9 +10,13 @@ import WebKit
 public class RichEditorWebView: WKWebView {
 
     public var accessoryView: UIView?
+    public var useCustomAccessoryView: Bool = false
     
     public override var inputAccessoryView: UIView? {
-        return accessoryView
+        guard self.useCustomAccessoryView else {
+            return super.inputAccessoryView
+        }
+        return self.accessoryView
     }
 
 }
