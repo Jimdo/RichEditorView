@@ -47,21 +47,6 @@ import UIKit
     }
 }
 
-/// RichButton is a subclass of UIButton that takes a callback as opposed to the target-action pattern
-@objcMembers open class RichButton: UIButton {
-    open var actionHandler: (() -> Void)?
-    
-    public convenience init(type buttonType: UIButton.ButtonType, handler: (() -> Void)? = nil) {
-        self.init(type: buttonType)
-        self.addTarget(self, action: #selector(RichButton.buttonWasTapped), for: .touchUpInside)
-        actionHandler = handler
-    }
-    
-    @objc func buttonWasTapped() {
-        actionHandler?()
-    }
-}
-
 /// RichEditorToolbar is UIView that contains the toolbar for actions that can be performed on a RichEditorView
 @objcMembers open class RichEditorToolbar: UIView {
 
@@ -143,14 +128,8 @@ import UIKit
                 buttons.append(button)
             } else {
                 let title = option.title
-                let buttonItem = RichBarButtonItem(title: title, handler: handler)
-                let button = RichButton(type: .system, handler: handler)
-                button.titleLabel?.font = .boldSystemFont(ofSize:
-                    button.titleLabel?.font.pointSize ?? 0)
-                button.setTitle(title, for: .normal)
-                button.sizeToFit()
-                buttonItem.customView = button
-                buttons.append(buttonItem)
+                let button = RichBarButtonItem(title: title, handler: handler)
+                buttons.append(button)
             }
         }
         toolbar.items = buttons
